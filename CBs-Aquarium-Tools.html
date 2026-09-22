@@ -141,13 +141,13 @@
 <div class="topbar">
   <h1>CB's Aquarium Tools</h1>
   <div class="sub">CB's Tropical Aquarium — labels &amp; care cards, one shared database</div>
-  <div class="sub" style="opacity:0.7; font-size:0.75rem;">v2026-08-31-k</div>
+  <div class="sub" style="opacity:0.7; font-size:0.75rem;">v2026-09-21-a</div>
 </div>
 
 <div class="app-switcher">
-  <button class="app-switch-btn" id="switchCustomerQr">CB's Customer QR Picker</button>
-  <button class="app-switch-btn active" id="switchLabelPicker">CB's Label Picker</button>
-  <button class="app-switch-btn" id="switchCardGenerator">CB's Card Generator</button>
+  <button class="app-switch-btn" id="switchCustomerQr" title="Generate QR code labels for customers at point of sale">CB's Customer QR Picker</button>
+  <button class="app-switch-btn active" id="switchLabelPicker" title="Select fish and print Zebra labels with QR codes and SKU barcodes">CB's Label Picker</button>
+  <button class="app-switch-btn" id="switchCardGenerator" title="Create and manage fish care cards for all 5 categories">CB's Card Generator</button>
 </div>
 
 <div class="db-tabs" id="dbTabs"></div>
@@ -171,7 +171,7 @@
         <div id="qpQueueList" style="margin:0.3rem 0;"></div>
       </div>
 
-      <button class="btn generate" id="qpPrintBtn" disabled style="margin-top:0.5rem;">Print All Labels for This Sale</button>
+      <button class="btn generate" id="qpPrintBtn" disabled style="margin-top:0.5rem;" title="Print QR code labels for all fish in the current sale queue">Print All Labels for This Sale</button>
     </div>
     <div class="status-msg" id="qpStatusMsg" style="padding:0 1rem 0.5rem;"></div>
   </div>
@@ -186,19 +186,19 @@
       <div class="pane-header">
         <h2>All Items</h2>
         <div class="clear-search-row">
-          <button class="btn" id="lpClearSearchBtn">Clear Search</button>
-          <button class="btn upload-btn" id="lpUploadBtn">Upload CSV File</button>
-          <button class="btn upload-btn" id="lpDownloadCsvBtn">Download Updated CSV</button>
+          <button class="btn" id="lpClearSearchBtn" title="Clear the search box and show all fish">Clear Search</button>
+          <button class="btn upload-btn" id="lpUploadBtn" title="Load a CSV file from your computer into the tool">Upload CSV File</button>
+          <button class="btn upload-btn" id="lpDownloadCsvBtn" title="Save the current database as a CSV file to your computer">Download Updated CSV</button>
           <input type="file" id="lpDataFileInput" accept=".csv">
         </div>
         <div class="clear-search-row">
-          <button class="btn" id="lpRefreshGithubBtn">Refresh from GitHub</button>
-          <button class="btn primary" id="lpPushCsvGithubBtn">Push CSV to GitHub</button>
+          <button class="btn" id="lpRefreshGithubBtn" title="Pull the latest fish data from GitHub — do this when you first open the tool">Refresh from GitHub</button>
+          <button class="btn primary" id="lpPushCsvGithubBtn" title="Save any changes you made and upload the updated CSV to GitHub permanently">Push CSV to GitHub</button>
         </div>
         <div style="font-size:0.72rem; color:#aaa; margin-bottom:0.5rem;">Tip: you can also drag and drop a CSV file directly onto the list below. This updates both CB's Label Picker and CB's Card Generator.</div>
         <div class="search-row">
           <input type="text" id="lpSearchBox" placeholder="Type to search (e.g. Angel)...">
-          <button class="btn primary" id="lpSelectAllBtn">Select All</button>
+          <button class="btn primary" id="lpSelectAllBtn" title="Select all fish in the current list for label printing">Select All</button>
         </div>
       </div>
       <div class="list-scroll" id="lpLeftList"></div>
@@ -207,7 +207,7 @@
     <div class="pane lp-pane">
       <div class="pane-header">
         <h2>Selected for Printing (<span id="lpSelectedCount">0</span>)</h2>
-        <div class="search-row"><button class="btn danger" id="lpClearSelectionBtn">Clear Selection</button></div>
+        <div class="search-row"><button class="btn danger" id="lpClearSelectionBtn" title="Remove all fish from the selected for printing list">Clear Selection</button></div>
         <div style="font-size:0.78rem; color:#888; margin-top:0.4rem;" id="lpTotalLabelsNote"></div>
       </div>
       <div class="list-scroll" id="lpRightList"><div class="empty-state">Click an item on the left to add it here.</div></div>
@@ -220,8 +220,8 @@
       <div id="bpStatusLp" style="font-size:0.78rem; color:#888; margin-top:0.2rem;">Checking printer connection...</div>
     </div>
     <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-      <button class="btn generate" id="lpGenerateBtn" disabled>Print All Labels</button>
-      <button class="btn" id="lpGenerateValidBtn" disabled>Print Valid Rows Only</button>
+      <button class="btn generate" id="lpGenerateBtn" disabled title="Print labels for all selected fish on the Zebra printer">Print All Labels</button>
+      <button class="btn" id="lpGenerateValidBtn" disabled title="Print labels only for fish that have a valid QR code link">Print Valid Rows Only</button>
     </div>
   </div>
   <div class="status-msg" id="lpStatusMsg"></div>
@@ -232,8 +232,8 @@
     <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.75rem;">
       <label style="font-size:0.85rem; color:#333;">How many labels to include (max 18 per sheet)</label>
       <input type="text" id="lpTestSheetCount" value="6" style="width:70px; margin-bottom:0;">
-      <button class="btn primary" id="lpBuildTestSheetBtn" disabled>Build Test Sheet</button>
-      <button class="btn" id="lpPrintTestSheetBtn" disabled>Print</button>
+      <button class="btn primary" id="lpBuildTestSheetBtn" disabled title="Build a test label sheet to check layout before printing for real">Build Test Sheet</button>
+      <button class="btn" id="lpPrintTestSheetBtn" disabled title="Print the test sheet to the Zebra printer">Print</button>
     </div>
     <div style="font-size:0.8rem; color:#A35A00; margin-bottom:0.5rem;"><strong>Important:</strong> when the print dialog opens, set scale to <strong>100% / Actual size</strong> &mdash; not "Fit to page." Scaling changes the QR module width, so a shrunk label can look fine but fail to scan even though a true-size one would work.</div>
     <div style="font-size:0.78rem; color:#999; margin-bottom:0.75rem;">This preview uses real QR and barcode encoders, positioned proportionally to your printed labels &mdash; it is meant for confirming overall size and running an actual scan test, not for pixel-exact placement matching the ZPL output.</div>
@@ -255,9 +255,9 @@
     <div class="pane cg-pane">
       <h2>Choose an Item</h2>
       <div class="mode-row">
-        <button class="btn" id="cgModeExisting">Edit Existing</button>
-        <button class="btn" id="cgModeNew">Add New Item</button>
-        <button class="btn" id="cgModeBatch">Batch Generate</button>
+        <button class="btn" id="cgModeExisting" title="Edit or update an existing fish already in the database">Edit Existing</button>
+        <button class="btn" id="cgModeNew" title="Add a brand new fish to the database">Add New Item</button>
+        <button class="btn" id="cgModeBatch" title="Generate cards for multiple fish at once">Batch Generate</button>
       </div>
       <div id="cgExistingPicker">
         <input type="text" class="search-box" id="cgSearchBox" placeholder="Search item name...">
@@ -272,13 +272,13 @@
         <div class="status-msg info" style="display:block;">Search above to copy an existing item's details as a starting point, then adjust what's different (color, size, etc.) before saving.</div>
       </div>
       <div style="margin-top:0.75rem;">
-        <button class="btn upload-btn" id="cgUploadBtn">Upload CSV File</button>
-        <button class="btn upload-btn" id="cgDownloadCsvBtn">Download Updated CSV</button>
+        <button class="btn upload-btn" id="cgUploadBtn" title="Load a CSV file from your computer into the tool">Upload CSV File</button>
+        <button class="btn upload-btn" id="cgDownloadCsvBtn" title="Save the current database as a CSV file to your computer">Download Updated CSV</button>
         <input type="file" id="cgDataFileInput" accept=".csv">
       </div>
       <div style="margin-top:0.5rem;">
-        <button class="btn" id="cgRefreshGithubBtn">Refresh from GitHub</button>
-        <button class="btn primary" id="cgPushCsvGithubBtn">Push CSV to GitHub</button>
+        <button class="btn" id="cgRefreshGithubBtn" title="Pull the latest fish data from GitHub — do this when you first open the tool">Refresh from GitHub</button>
+        <button class="btn primary" id="cgPushCsvGithubBtn" title="Upload the updated CSV to GitHub without saving the current form">Push CSV to GitHub</button>
       </div>
     </div>
 
@@ -290,19 +290,19 @@
         <img id="cgImagePreview" style="display:none;">
       </div>
       <div class="actions-row" style="margin-top:0; margin-bottom:0.75rem;">
-        <button class="btn" id="cgFetchImageBtn">Fetch Photo from GitHub</button>
+        <button class="btn" id="cgFetchImageBtn" title="Fetch the fish photo stored in the GitHub images folder">Fetch Photo from GitHub</button>
       </div>
       <label class="field-label">SKU (needed to print a label for this item)</label>
       <input type="text" id="cgSkuField" placeholder="e.g. AN12">
       <div id="cgFieldsContainer"></div>
       <div class="actions-row">
-        <button class="btn primary" id="cgSaveDbBtn" disabled>Save &amp; Push to GitHub</button>
-        <button class="btn" id="cgPushGithubBtn" disabled>Push to GitHub</button>
-        <button class="btn" id="cgGenerateBtn" disabled>Generate &amp; Download Card</button>
-        <button class="btn" id="cgDownloadJpgBtn" disabled>Download as JPG</button>
-        <button class="btn" id="cgDownloadPdfBtn" disabled>Download as PDF</button>
-        <button class="btn" id="cgDownload4x6Btn" disabled>Download 4x6 Print PDF</button>
-        <button class="btn" id="cgClearFormBtn">Clear Form</button>
+        <button class="btn primary" id="cgSaveDbBtn" disabled title="Save this fish to the database AND push the HTML care card to GitHub in one step — use this for new or edited fish">Save &amp; Push to GitHub</button>
+        <button class="btn" id="cgPushGithubBtn" disabled title="Push the HTML care card for this fish to GitHub without saving database changes">Push to GitHub</button>
+        <button class="btn" id="cgGenerateBtn" disabled title="Preview and download this fish care card as an HTML file to your computer">Generate &amp; Download Card</button>
+        <button class="btn" id="cgDownloadJpgBtn" disabled title="Download this fish care card as a JPG image">Download as JPG</button>
+        <button class="btn" id="cgDownloadPdfBtn" disabled title="Download this fish care card as a PDF file">Download as PDF</button>
+        <button class="btn" id="cgDownload4x6Btn" disabled title="Download this fish care card as a 4x6 print-ready PDF for photo paper">Download 4x6 Print PDF</button>
+        <button class="btn" id="cgClearFormBtn" title="Clear all fields in the form to start fresh">Clear Form</button>
       </div>
       <div id="cgExportProgress" style="font-size:0.8rem; color:#666; margin-top:0.5rem;"></div>
       <div class="repo-note" id="cgRepoNote"></div>
@@ -314,13 +314,13 @@
     <div class="pane cg-batch-pane">
       <h2>All Items</h2>
       <div style="margin-bottom:0.75rem;">
-        <button class="btn upload-btn" id="cgBatchUploadBtn">Upload CSV File</button>
-        <button class="btn upload-btn" id="cgBatchDownloadCsvBtn">Download Updated CSV</button>
+        <button class="btn upload-btn" id="cgBatchUploadBtn" title="Load a CSV file from your computer into the tool">Upload CSV File</button>
+        <button class="btn upload-btn" id="cgBatchDownloadCsvBtn" title="Save the current database as a CSV file to your computer">Download Updated CSV</button>
         <input type="file" id="cgBatchDataFileInput" accept=".csv">
       </div>
       <div style="margin-bottom:0.75rem;">
-        <button class="btn" id="cgBatchRefreshGithubBtn">Refresh from GitHub</button>
-        <button class="btn primary" id="cgBatchPushCsvGithubBtn">Push CSV to GitHub</button>
+        <button class="btn" id="cgBatchRefreshGithubBtn" title="Pull the latest fish data from GitHub — do this when you first open the tool">Refresh from GitHub</button>
+        <button class="btn primary" id="cgBatchPushCsvGithubBtn" title="Upload the updated CSV to GitHub permanently">Push CSV to GitHub</button>
       </div>
       <div class="mode-row">
         <button class="btn" id="cgModeExistingB">Edit Existing</button>
@@ -329,16 +329,16 @@
       </div>
       <div class="batch-search-row">
         <input type="text" id="cgBatchSearchBox" placeholder="Search item name...">
-        <button class="btn primary" id="cgBatchSelectAllBtn">Select All</button>
-        <button class="btn" id="cgBatchGenerateAllHtmlBtn" style="background:#7B2D8B;color:white;border-color:#7B2D8B;">⬇️ Generate All as HTML (.zip)</button>
+        <button class="btn primary" id="cgBatchSelectAllBtn" title="Select all fish in the current category for batch card generation">Select All</button>
+        <button class="btn" id="cgBatchGenerateAllHtmlBtn" style="background:#7B2D8B;color:white;border-color:#7B2D8B;" title="Select all fish, fetch their photos, and download all care cards as a ZIP file in one click">⬇️ Generate All as HTML (.zip)</button>
       </div>
       <div class="batch-fish-list" id="cgBatchFishList"></div>
     </div>
 
     <div class="pane cg-batch-pane">
       <h2>Selected for Card Generation (<span id="cgBatchSelectedCount">0</span>)</h2>
-      <button class="btn" id="cgBatchClearSelectionBtn" style="margin-bottom:0.5rem;">Clear Selection</button>
-      <button class="btn primary" id="cgBatchFetchImagesBtn" disabled style="margin-bottom:0.5rem;">Fetch All Photos from GitHub</button>
+      <button class="btn" id="cgBatchClearSelectionBtn" style="margin-bottom:0.5rem;" title="Remove all fish from the batch selection list">Clear Selection</button>
+      <button class="btn primary" id="cgBatchFetchImagesBtn" disabled style="margin-bottom:0.5rem;" title="Download all fish photos from GitHub to use in the care cards">Fetch All Photos from GitHub</button>
       <div id="cgBatchFetchProgress" style="font-size:0.8rem; color:#666; margin-bottom:0.5rem;"></div>
       <div class="batch-selected-list" id="cgBatchSelectedList"><div class="empty-note">No items selected yet.</div></div>
     </div>
@@ -354,13 +354,13 @@
     <div class="status-msg info" id="cgBatchImageStatus" style="display:none;"></div>
 
     <div class="actions-row">
-      <button class="btn primary" id="cgBatchUpdateAllBtn" disabled>Update All</button>
-      <button class="btn" id="cgBatchDownloadZipHtmlBtn" disabled>Download All as HTML (.zip)</button>
-      <button class="btn" id="cgBatchDownloadPdfBtn" disabled>Download All as Combined PDF</button>
-      <button class="btn" id="cgBatchDownloadZipPdfBtn" disabled>Download All as Separate PDFs (.zip)</button>
-      <button class="btn" id="cgBatchDownloadZipJpgBtn" disabled>Download All as JPGs (.zip)</button>
-      <button class="btn" id="cgBatchDownloadPrintSheetBtn" disabled>Download Print Sheet (actual size, multi-up)</button>
-      <button class="btn" id="cgBatchDownload4x6ZipBtn" disabled>Download All as 4x6 Print PDFs (.zip)</button>
+      <button class="btn primary" id="cgBatchUpdateAllBtn" disabled title="Regenerate all selected care cards with the latest data and photos">Update All</button>
+      <button class="btn" id="cgBatchDownloadZipHtmlBtn" disabled title="Download all selected care cards as individual HTML files in a ZIP — upload these to GitHub for QR code scanning">Download All as HTML (.zip)</button>
+      <button class="btn" id="cgBatchDownloadPdfBtn" disabled title="Download all selected care cards combined into one PDF file">Download All as Combined PDF</button>
+      <button class="btn" id="cgBatchDownloadZipPdfBtn" disabled title="Download all selected care cards as individual PDF files in a ZIP">Download All as Separate PDFs (.zip)</button>
+      <button class="btn" id="cgBatchDownloadZipJpgBtn" disabled title="Download all selected care cards as individual JPG images in a ZIP">Download All as JPGs (.zip)</button>
+      <button class="btn" id="cgBatchDownloadPrintSheetBtn" disabled title="Download a print sheet with multiple cards tiled at actual size — print at Actual Size and cut apart">Download Print Sheet (actual size, multi-up)</button>
+      <button class="btn" id="cgBatchDownload4x6ZipBtn" disabled title="Download all selected care cards as 4x6 print-ready PDFs — print on 4x6 photo paper at Actual Size">Download All as 4x6 Print PDFs (.zip)</button>
     </div>
     <div id="cgBatchPushProgress" style="font-size:0.8rem; color:#666; margin-top:0.5rem;"></div>
     <div class="repo-note" id="cgBatchRepoNote"></div>
