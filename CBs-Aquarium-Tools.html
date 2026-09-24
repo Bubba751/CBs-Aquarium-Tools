@@ -141,7 +141,7 @@
 <div class="topbar">
   <h1>CB's Aquarium Tools</h1>
   <div class="sub">CB's Tropical Aquarium — labels &amp; care cards, one shared database</div>
-  <div class="sub" style="opacity:0.7; font-size:0.75rem;">v2026-09-24-c</div>
+  <div class="sub" style="opacity:0.7; font-size:0.75rem;">v2026-09-24-d</div>
 </div>
 
 <div class="app-switcher">
@@ -151,6 +151,7 @@
 </div>
 
 <div class="db-tabs" id="dbTabs"></div>
+<div id="githubLoadStatus" style="display:none; padding:0.4rem 1.5rem; font-size:0.82rem; font-weight:600; color:#085041; background:#E1F5EE; border-bottom:0.5px solid #9fd8c2;">✅ Latest GitHub CSV has loaded.</div>
 
 <!-- ============ CUSTOMER QR PICKER APP (Quick Print at checkout) ============ -->
 <div class="app" id="customerQrApp" style="display:none;">
@@ -697,7 +698,11 @@ const lpLeftListEl_dragTarget = () => document.getElementById('lpLeftList');
 document.addEventListener('DOMContentLoaded', () => {
   try {
     loadCsvFromGithub(currentDb, lpShowStatus, false).then(ok => {
-      if (ok) lpShowStatus('✅ Latest GitHub CSV has loaded.', 'success');
+      if (ok) {
+        const banner = document.getElementById('githubLoadStatus');
+        banner.style.display = 'block';
+        setTimeout(() => { banner.style.display = 'none'; }, 5000);
+      }
     }).catch(() => {});
   } catch(e) {}
 });
