@@ -141,7 +141,7 @@
 <div class="topbar">
   <h1>CB's Aquarium Tools</h1>
   <div class="sub">CB's Tropical Aquarium — labels &amp; care cards, one shared database</div>
-  <div class="sub" style="opacity:0.7; font-size:0.75rem;">v2026-09-24-d</div>
+  <div class="sub" style="opacity:0.7; font-size:0.75rem;">v2026-10-08-a</div>
 </div>
 
 <div class="app-switcher">
@@ -1863,7 +1863,36 @@ document.getElementById('cgSaveDbBtn').addEventListener('click', async () => {
   }
 
   cgShowStatus(actionDescription + ' Pushing to GitHub...', 'info');
-  await pushCsvToGithub(currentDb, token, cgShowStatus);
+
+  // Step 1: Push CSV
+  let csvOk = false;
+  let csvMsg = '';
+  try {
+    await pushCsvToGithub(currentDb, token, (msg, type) => { csvOk = (type === 'success'); csvMsg = msg; });
+  } catch(e) { csvMsg = e.message; }
+
+  // Step 2: Push HTML care card
+  let cardOk = false;
+  let cardMsg = '';
+  try {
+    const color = CONFIGS[currentDb].color;
+    const cardFields = {};
+    document.querySelectorAll('#cgFieldsContainer input, #cgFieldsContainer textarea').forEach(el => { cardFields[el.dataset.csvField] = el.value.trim(); });
+    const cardHtml = buildCardHTML(fishName, cardFields, cgImageBase64, color);
+    const cardResult = await pushCardToGitHub(CONFIGS[currentDb].repo, fishName, cardHtml, token);
+    cardOk = cardResult && cardResult.ok;
+    cardMsg = cardResult ? cardResult.message : 'Unknown error';
+  } catch(e) { cardMsg = e.message; }
+
+  if (csvOk && cardOk) {
+    cgShowStatus(actionDescription + ' ✅ Saved! CSV and HTML care card both pushed to GitHub. QR code is ready!', 'success');
+  } else if (csvOk && !cardOk) {
+    cgShowStatus(actionDescription + ' ✅ CSV saved. ⚠️ HTML card push failed: ' + cardMsg, 'error');
+  } else if (!csvOk && cardOk) {
+    cgShowStatus(actionDescription + ' ⚠️ CSV push failed: ' + csvMsg + ' ✅ HTML card saved.', 'error');
+  } else {
+    cgShowStatus(actionDescription + ' ⚠️ Both pushes failed. Check your GitHub token and try again.', 'error');
+  }
 });
 
 function refreshSharedLists() {
